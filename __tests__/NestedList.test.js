@@ -10,7 +10,7 @@ import dataset from '../assets/dataset'
 
 describe('NestedList', () => {
   it('should render NestedList', () => {
-    const wrapper = shallow(<NestedList list={dataset} listName="Parent" />)
+    const wrapper = shallow(<NestedList list={dataset} listName="Parents" />)
     expect(wrapper.find(List).length).toEqual(1)
   })
 
@@ -21,7 +21,7 @@ describe('NestedList', () => {
   })
 
   it('should show datas in list', () => {
-    const wrapper = shallow(<NestedList list={dataset} listName="Parent" />)
+    const wrapper = shallow(<NestedList list={dataset} listName="Parents" />)
     const listItems = wrapper.find(NestedListItem)
     expect(listItems.length).toEqual(dataset.length)
   })

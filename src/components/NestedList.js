@@ -20,8 +20,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const NestedList = ({ list, listName }) => {
+const NestedList = ({ list, listName, onItemDeleted }) => {
   const classes = useStyles()
+  const [mList, mSetList] = useState(list)
+
+  const handleDeleteItem = item => {
+    mSetList(mList.filter(i => i.ID !== item.ID))
+    if (onItemDeleted) {
+      onItemDeleted(item)
+    }
+  }
 
   return (
     <div className="List">
@@ -34,8 +42,8 @@ const NestedList = ({ list, listName }) => {
         }
         className={classes.root}
       >
-        {list.map(item => 
-          <NestedListItem item={item} key={item.ID}/>
+        {mList.map(item =>
+          <NestedListItem handleDeleteItem={handleDeleteItem} item={item} key={item.ID}/>
         )}  
       </List>
     </div>
@@ -44,7 +52,8 @@ const NestedList = ({ list, listName }) => {
 
 NestedList.propTypes = {
   list: PropTypes.array.isRequired,
-  listName: PropTypes.string
+  listName: PropTypes.string,
+  onItemDeleted: PropTypes.func
 }
 
 export default NestedList

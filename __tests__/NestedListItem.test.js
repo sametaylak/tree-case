@@ -5,6 +5,7 @@ import NestedListItem from '../src/components/NestedListItem'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Collapse from '@material-ui/core/Collapse'
+import IconButton from '@material-ui/core/IconButton'
 
 describe('NestedListItem', () => {
   const mockObject = {
@@ -17,17 +18,17 @@ describe('NestedListItem', () => {
   }
 
   it('should render NestedListItem', () => {
-    const wrapper = shallow(<NestedListItem item={mockObject} />)
+    const wrapper = shallow(<NestedListItem item={mockObject} handleDeleteItem={() => {}} />)
     expect(wrapper.find(ListItem).length).toEqual(1)
   })
 
   it('should show list item name', () => {
-    const wrapper = shallow(<NestedListItem item={mockObject} />)
+    const wrapper = shallow(<NestedListItem item={mockObject} handleDeleteItem={() => {}} />)
     expect(wrapper.find(ListItem).find(ListItemText).props().primary).toEqual('1 - Samet / Istanbul')
   })
 
   it('should not show childs', () => {
-    const wrapper = shallow(<NestedListItem item={mockObject} />)
+    const wrapper = shallow(<NestedListItem item={mockObject} handleDeleteItem={() => {}} />)
     expect(wrapper.find(Collapse).length).toEqual(0)
   })
 
@@ -41,7 +42,15 @@ describe('NestedListItem', () => {
       Childs: []
     })
 
-    const wrapper = shallow(<NestedListItem item={mockObject} />)
+    const wrapper = shallow(<NestedListItem item={mockObject} handleDeleteItem={() => {}} />)
     expect(wrapper.find(Collapse).length).toEqual(1)
+  })
+
+  it('should call handleItemDelete', () => {
+    const deleteItemFn = jest.fn()
+    const wrapper = shallow(<NestedListItem item={mockObject} handleDeleteItem={deleteItemFn} />)
+    const deleteButton = wrapper.find(IconButton).last()
+    deleteButton.simulate('click')
+    expect(deleteItemFn.mock.calls.length).toEqual(1)
   })
 })
